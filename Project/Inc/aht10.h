@@ -12,10 +12,15 @@
 
 #include <stdint.h>
 
+//DECLARAÇÃO DO ENDEREÇO I2C DO AHT10 E ESTABELECIMENTO DA COMUNICAÇÃO ENTRE SENSOR E PLACA
 #define AHT_ADR   		(0x38)
 #define AHT_ADR_WRITE   ((AHT_ADR << 1)|0)
 #define AHT_ADR_READ    ((AHT_ADR << 1)|1)
 
+//COMANDOS DO AHT10
+#define AHT_CMD_SOFT_RESET		(0xBA) //Soft reset do sensor
+#define AHT_CMD_INIT			(0xBE) //Inicia o sensor
+#define AHT_CMD_TRIGGER_MEASURE	(0xAC) //Inicia a medição
 
 typedef enum{
 	AHT10_OK = 0,
@@ -28,8 +33,8 @@ typedef enum{
 }DEVICE_STATE;
 
 typedef enum{
-	NOR = 0,
-	CYC = 1,
+	NOR = 0, 	//Normal mode
+	CYC = 1, 	//Cycle mode
 	CMD_0 = 2,
 	CMD_1 = 3
 }DEVICE_MODE;

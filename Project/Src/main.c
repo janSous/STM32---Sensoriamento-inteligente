@@ -17,6 +17,10 @@
  */
 
 #include "stm32f1xx.h"
+#include "gpio.h"
+#include "aht10.h"
+#include "i2c.h"
+
 #include <stdint.h>
 
 #if !defined(__SOFT_FP__) && defined(__ARM_FP)
@@ -25,6 +29,18 @@
 
 int main(void)
 {
-    /* Loop forever */
+
+    gpio_init(gpiob);
+    afio_init();
+
+    setup_pin(gpiob, P6, OUT_50MHZ, CNF_3);
+    setup_pin(gpiob, P7, OUT_50MHZ, CNF_3);
+    
+    //ajeitar depois
+    i2c_init(I2C_1, I2C_FREQ_2MHZ);
+    i2c_int_enable(BUFFER_INT);
+    i2c_int_enable(EVENT_INT);
+
+    
 	for(;;);
 }

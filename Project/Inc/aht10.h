@@ -51,8 +51,8 @@ typedef enum{
 //PROTOTIPOS
 OPERATION_STATE aht_Sync(void);
 OPERATION_STATE aht_Write(uint8_t);
-OPERATION_STATE aht_Read(uint8_t,uint8_t*, uint8_t); //Recebe o comando, um buffer de 6 bytes, e o tamanho do buffer
-float getTemperature(uint8_t*, float);
-float getHumidity(uint8_t*, float);
+OPERATION_STATE aht_Read(uint8_t*, uint8_t); //Recebe o comando, um buffer de 6 bytes, e o tamanho do buffer
+float getTemperature(uint8_t*);
+float getHumidity(uint8_t*);
 
 #endif /* AH10_H_ */

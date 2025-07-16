@@ -27,9 +27,14 @@
   #warning "FPU is not initialized, but the project is compiling for an FPU. Please initialize the FPU before use."
 #endif
 
+
+uint8_t rx_buffer[BUFFER_SIZE] = {0,0,0,0,0,0};
+float aht10_temp;
+float aht10_hum;
+
+
 int main(void)
 {
-
     gpio_init(gpiob);
     afio_init();
 
@@ -37,10 +42,12 @@ int main(void)
     setup_pin(gpiob, P7, OUT_50MHZ, CNF_3);
     
     //ajeitar depois
-    i2c_init(I2C_1, I2C_FREQ_2MHZ);
-    i2c_int_enable(BUFFER_INT);
-    i2c_int_enable(EVENT_INT);
+    i2c_init(I2C_1, 8, AHT10);
 
-    
-	for(;;);
+	  for(;;){
+      aht_Write(AHT_CMD_TRIGGER_MEASURE);
+      aht_Read(rx_buffer, BUFFER_SIZE);
+      aht10_temp = getTemperature(rx_buffer);
+      aht10_hum = getHumidity(rx_buffer);
+    }
 }

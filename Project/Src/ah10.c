@@ -32,7 +32,7 @@ OPERATION_STATE aht_Write(uint8_t cmd) {
     i2c_stop();
     return AHT10_OK;
 }
-OPERATION_STATE aht_Read(uint8_t cmd, uint8_t* buffer, uint8_t size) {
+OPERATION_STATE aht_Read(uint8_t* buffer, uint8_t size) {
     if(!aht_Sync()){
         return AHT10_ERR;
     }
@@ -59,8 +59,9 @@ OPERATION_STATE aht_Read(uint8_t cmd, uint8_t* buffer, uint8_t size) {
     return AHT10_OK; 
 }
 
-float getTemperature(uint8_t* buffer, float temp) {
+float getTemperature(uint8_t* buffer) {
     
+    float temp = 0;
     if(!(buffer[0] & 0x40)){ //verifica se os valores estao calibrados
         aht_Write(AHT_CMD_INIT); //manda comando para calibrar o sensor
     }
@@ -71,7 +72,8 @@ float getTemperature(uint8_t* buffer, float temp) {
     return temp;
 }
 
-float getHumidity(uint8_t* buffer, float hum) {
+float getHumidity(uint8_t* buffer) {
+    float hum = 0;
    if(!(buffer[0] & 0x40)){ //verifica se os valores estao calibrados
         aht_Write(AHT_CMD_INIT); //manda comando para calibrar o sensor
     }

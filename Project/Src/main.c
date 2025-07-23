@@ -37,17 +37,22 @@ int main(void)
 {
     gpio_init(gpiob);
     afio_init();
+    i2c_clock_init(I2C_1);
 
     setup_pin(gpiob, P6, OUT_50MHZ, CNF_3);
     setup_pin(gpiob, P7, OUT_50MHZ, CNF_3);
     
     //ajeitar depois
-    i2c_init(I2C_1, 8, AHT10);
+    i2c_init(8,AHT10);
 
 	  for(;;){
-      aht_Write(AHT_CMD_TRIGGER_MEASURE);
-      aht_Read(rx_buffer, BUFFER_SIZE);
-      aht10_temp = getTemperature(rx_buffer);
-      aht10_hum = getHumidity(rx_buffer);
+      if(aht10_measure(rx_buffer, 6) == AHT10_OK) {
+        aht10_temp= getTemperature(rx_buffer);
+        aht10_hum = getHumidity(rx_buffer);
+        // use temp e hum
+    }
+    // delay entre medições, se necessário
+    delay_ms(500);
+
     }
 }

@@ -10,10 +10,11 @@ void i2c_clock_init(uint8_t channelI2C){
     }
 }
 
-void i2c_init(uint8_t channel12C, uint8_t i2c_freq, DEVICE_I2C dev){
+void i2c_init(uint8_t i2c_freq, DEVICE_I2C dev){
 
     //Reseta o periferico
     I2C1->CR1 |= (1 << 15); 
+    I2C1->CR1 &= ~(1 << 15);
     
     if(i2c_freq < I2C_MIN_FREQ){
         i2c_freq = I2C_MIN_FREQ;
@@ -23,7 +24,7 @@ void i2c_init(uint8_t channel12C, uint8_t i2c_freq, DEVICE_I2C dev){
         i2c_freq = I2C_MAX_FREQ;
     }
 
-    I2C1_CR2 |= (i2c_freq & 0x3F); //garante que so seja escrito 6bits
+    I2C1->CR2 |= (i2c_freq & 0x3F); //garante que so seja escrito 6bits
 
     //configura ccr e trise de acordo com as caracteristicas do dispositivo
     switch (dev)

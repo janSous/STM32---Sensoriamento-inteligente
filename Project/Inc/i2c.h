@@ -21,7 +21,7 @@ typedef enum{
 }I2C_INT;
 
 void i2c_clock_init(uint8_t);
-void i2c_init(uint8_t,uint8_t, DEVICE_I2C);
+void i2c_init(uint8_t,DEVICE_I2C);
 void i2c_int_enable(I2C_INT);
 void i2c_start(void);
 void i2c_stop(void);

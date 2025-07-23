@@ -3,14 +3,25 @@
 //Arquio.c não finalizado, apenas para testes
 
 //Tasks: Implementar delay 
+void delay_ms(uint32_t ms) {
+    for(uint32_t i = 0; i < ms * 8000; i++) {
+    }
+}
 
 OPERATION_STATE aht_Sync(void){
     i2c_start();
     I2C1->DR = AHT_ADR_WRITE;
     while(!(I2C1->SR1 & (1<<1)));
-    uint8_t temp = I2C1->SR1| I2C1->SR2; //limpa o bit ADR
+    uint8_t temp = I2C1->SR1;
+    temp = I2C1->SR2; //limpa o bit ADR
     
     return AHT10_OK;
+}
+
+void aht10_init(void) {
+    aht_Write(AHT_CMD_INIT);
+    // Delay de pelo menos 20ms após init (datasheet)
+    delay_ms(20);
 }
 
 OPERATION_STATE aht_Write(uint8_t cmd) {
@@ -42,7 +53,7 @@ OPERATION_STATE aht_Read(uint8_t* buffer, uint8_t size) {
 
     for(;resto > 2; resto--){
         while(!(I2C1->SR1 & (1<<6)));
-        buffer[size - resto] = I2C1->CR;
+        buffer[size - resto] = I2C1->DR;
         I2C1->CR1 |= (1 << 10); //ACK = 1
     }
 
@@ -57,6 +68,26 @@ OPERATION_STATE aht_Read(uint8_t* buffer, uint8_t size) {
     while(!(I2C1->SR1 & (1<<6)));
     buffer[size - resto] = I2C1->CR;
     return AHT10_OK; 
+}
+
+// 2. Trigger de medição e leitura dos dados
+OPERATION_STATE aht10_measure(uint8_t* buffer, uint8_t size) {
+    // Envia comando de trigger
+    if(aht_Write(AHT_CMD_TRIGGER_MEASURE) != AHT10_OK)
+        return AHT10_ERR;
+
+    // Delay de conversão: típico 80ms (datasheet)
+    delay_ms(80);
+
+    // Lê os dados do sensor
+    if(aht_Read(buffer, size) != AHT10_OK)
+        return AHT10_ERR;
+
+    // Verifica se o sensor está calibrado (bit 3 do status)
+    if(!(buffer[0] & 0x08))
+        return AHT10_ERR;
+
+    return AHT10_OK;
 }
 
 float getTemperature(uint8_t* buffer) {

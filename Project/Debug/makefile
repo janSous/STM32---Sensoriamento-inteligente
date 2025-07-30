@@ -33,34 +33,34 @@ $(wildcard ../makefile.init) \
 $(wildcard ../makefile.targets) \
 
 
-BUILD_ARTIFACT_NAME := Smart_Sensoring
+BUILD_ARTIFACT_NAME := copia
 BUILD_ARTIFACT_EXTENSION := elf
 BUILD_ARTIFACT_PREFIX :=
 BUILD_ARTIFACT := $(BUILD_ARTIFACT_PREFIX)$(BUILD_ARTIFACT_NAME)$(if $(BUILD_ARTIFACT_EXTENSION),.$(BUILD_ARTIFACT_EXTENSION),)
 
 # Add inputs and outputs from these tool invocations to the build variables 
 EXECUTABLES += \
-Smart_Sensoring.elf \
+copia.elf \
 
 MAP_FILES += \
-Smart_Sensoring.map \
+copia.map \
 
 SIZE_OUTPUT += \
 default.size.stdout \
 
 OBJDUMP_LIST += \
-Smart_Sensoring.list \
+copia.list \
 
 
 # All Target
 all: main-build
 
 # Main-build Target
-main-build: Smart_Sensoring.elf secondary-outputs
+main-build: copia.elf secondary-outputs
 
 # Tool invocations
-Smart_Sensoring.elf Smart_Sensoring.map: $(OBJS) $(USER_OBJS) /home/jan/STM32CubeIDE/workspace_1.18.0/Smart_Sensoring/STM32F103C8TX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "Smart_Sensoring.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m3 -T"/home/jan/STM32CubeIDE/workspace_1.18.0/Smart_Sensoring/STM32F103C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Smart_Sensoring.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+copia.elf copia.map: $(OBJS) $(USER_OBJS) /home/jan/STM32CubeIDE/workspace_1.18.0/copia/STM32F103C8TX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "copia.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m3 -T"/home/jan/STM32CubeIDE/workspace_1.18.0/copia/STM32F103C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="copia.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
@@ -69,14 +69,14 @@ default.size.stdout: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
 	@echo 'Finished building: $@'
 	@echo ' '
 
-Smart_Sensoring.list: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-objdump -h -S $(EXECUTABLES) > "Smart_Sensoring.list"
+copia.list: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-objdump -h -S $(EXECUTABLES) > "copia.list"
 	@echo 'Finished building: $@'
 	@echo ' '
 
 # Other Targets
 clean:
-	-$(RM) Smart_Sensoring.elf Smart_Sensoring.list Smart_Sensoring.map default.size.stdout
+	-$(RM) copia.elf copia.list copia.map default.size.stdout
 	-@echo ' '
 
 secondary-outputs: $(SIZE_OUTPUT) $(OBJDUMP_LIST)

@@ -1,0 +1,4 @@
+../Src/aht10.c:12:6:aht10_Write	24	static
+../Src/aht10.c:39:6:aht10_Read	24	static
+../Src/aht10.c:65:6:delay_us	24	static,ignoring_inline_asm
+../Src/aht10.c:71:6:aht10_Sync	16	static

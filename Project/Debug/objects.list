@@ -1,4 +1,8 @@
+"./Src/adc.o"
+"./Src/aht10.o"
+"./Src/i2c.o"
 "./Src/main.o"
+"./Src/nrf24.o"
 "./Src/syscalls.o"
 "./Src/sysmem.o"
 "./Startup/startup_stm32f103c8tx.o"

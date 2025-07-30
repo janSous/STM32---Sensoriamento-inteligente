@@ -1,0 +1,4 @@
+../Src/aht10.c:12:6:aht10_Write	7
+../Src/aht10.c:39:6:aht10_Read	6
+../Src/aht10.c:65:6:delay_us	2
+../Src/aht10.c:71:6:aht10_Sync	1
